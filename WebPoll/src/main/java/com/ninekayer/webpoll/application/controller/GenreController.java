@@ -36,7 +36,7 @@ public class GenreController {
 
     @GetMapping("{id}")
     public ResponseEntity<GenreResponse> getById(@PathVariable String id){
-        return new ResponseEntity<GenreResponse>(mapper.map(genreService.getById(Integer.parseInt(id)),
+        return new ResponseEntity<>(mapper.map(genreService.getById(Integer.parseInt(id)),
                                                             GenreResponse.class ),
                                                 HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class GenreController {
 
         Genre newGenre = genreService.create(mapper.map(genreRequest, Genre.class));
 
-        return new ResponseEntity<GenreResponse>(mapper.map(newGenre, GenreResponse.class),
+        return new ResponseEntity<>(mapper.map(newGenre, GenreResponse.class),
                 HttpStatus.CREATED);
     }
 
@@ -57,7 +57,7 @@ public class GenreController {
 
         Genre updatedGenre = genreService.update(Integer.parseInt(id), mapper.map(genreRequest, Genre.class));
 
-        return new ResponseEntity<GenreResponse>(mapper.map(updatedGenre, GenreResponse.class),
+        return new ResponseEntity<>(mapper.map(updatedGenre, GenreResponse.class),
                 HttpStatus.OK);
     }
 
