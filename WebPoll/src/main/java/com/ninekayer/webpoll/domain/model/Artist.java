@@ -20,7 +20,7 @@ public class Artist {
     @OneToMany(mappedBy = "artist", fetch = FetchType.EAGER)
     private List<Music> musicList = new ArrayList<>();
 
-    public Artist() {
+    protected Artist() {
     }
 
     public int getId() {
@@ -45,5 +45,37 @@ public class Artist {
 
     public void setMusicList(List<Music> musicList) {
         this.musicList = musicList;
+    }
+    
+    public static class Builder{
+        
+        private final Artist artist;
+        
+        public Builder(){
+            this.artist = new Artist();
+        }
+
+        public Builder(Artist artist){
+            this.artist = artist;
+        }
+
+        public Builder id(int id){
+            artist.setId(id);
+            return this;
+        }
+
+        public Builder name(String name){
+            artist.setName(name);
+            return this;
+        }
+
+        public Builder musicList(List<Music> musicList){
+            artist.setMusicList(musicList);
+            return this;
+        }
+
+        public Artist build(){
+            return artist;
+        }
     }
 }

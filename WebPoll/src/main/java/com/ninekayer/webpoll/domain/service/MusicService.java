@@ -5,7 +5,6 @@ import com.ninekayer.webpoll.infra.repository.MusicRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MusicService {
@@ -21,12 +20,7 @@ public class MusicService {
     }
 
     public Music getById(int id){
-        Optional<Music> musicOptional = repo.findById(id);
-
-        if(!musicOptional.isPresent()){
-            return null;
-        }
-
-        return musicOptional.get();
+        return repo.findById(id)
+                    .orElseThrow(RuntimeException::new);
     }
 }

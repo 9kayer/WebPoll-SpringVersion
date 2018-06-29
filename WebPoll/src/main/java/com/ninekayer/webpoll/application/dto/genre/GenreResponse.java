@@ -2,17 +2,17 @@ package com.ninekayer.webpoll.application.dto.genre;
 
 public class GenreResponse {
 
-    private String id;
+    private int id;
     private String name;
 
     public GenreResponse() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

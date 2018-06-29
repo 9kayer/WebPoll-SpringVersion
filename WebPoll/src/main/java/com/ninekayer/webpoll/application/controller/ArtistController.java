@@ -1,15 +1,15 @@
 package com.ninekayer.webpoll.application.controller;
 
+import com.ninekayer.webpoll.application.dto.artist.ArtistRequest;
 import com.ninekayer.webpoll.application.dto.artist.ArtistResponse;
+import com.ninekayer.webpoll.domain.model.Artist;
 import com.ninekayer.webpoll.domain.service.ArtistService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,5 +39,27 @@ public class ArtistController {
         return new ResponseEntity<>(mapper.map( artistService.getById(Integer.parseInt(id)),
                                                 ArtistResponse.class),
                                     HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<ArtistResponse> create(@Valid @RequestBody ArtistRequest artistRequest){
+        Artist artist = artistService.create(mapper.map(artistRequest, Artist.class));
+
+        return new ResponseEntity<>(mapper.map( artistService.create(artist), ArtistResponse.class), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ArtistResponse> update(@PathVariable String id,
+                                                 @Valid @RequestBody ArtistRequest artistRequest){
+        Artist artist = artistService.update( Integer.parseInt(id),
+                                            mapper.map( artistRequest, Artist.class) );
+
+        return new ResponseEntity<>(mapper.map( artist, ArtistResponse.class), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteById(@PathVariable String id){
+        artistService.deleteById(Integer.parseInt(id));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

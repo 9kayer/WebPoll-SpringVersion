@@ -12,7 +12,7 @@ public class Genre {
     @Column(name = "Name")
     private String name;
 
-    public Genre() {
+    protected Genre() {
     }
 
     public Integer getId() {
@@ -29,5 +29,32 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static class Builder{
+
+        private Genre genre;
+
+        public Builder(){
+            genre = new Genre();
+        }
+
+        public Builder(Genre genre){
+            this.genre = genre;
+        }
+
+        public Builder id(int id){
+            genre.setId(id);
+            return this;
+        }
+
+        public Builder name(String name){
+            genre.setName(name);
+            return this;
+        }
+
+        public Genre build() {
+            return genre;
+        }
     }
 }

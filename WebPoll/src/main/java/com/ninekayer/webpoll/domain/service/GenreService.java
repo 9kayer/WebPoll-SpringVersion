@@ -2,10 +2,9 @@ package com.ninekayer.webpoll.domain.service;
 
 import com.ninekayer.webpoll.domain.model.Genre;
 import com.ninekayer.webpoll.infra.repository.GenreRepository;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GenreService {
@@ -21,14 +20,8 @@ public class GenreService {
     }
 
     public Genre getById(int id){
-
-        Optional<Genre> genreOptional = repo.findById(id);
-
-        if (genreOptional.isPresent()){
-            return genreOptional.get();
-        }
-
-        return null;
+        return repo.findById(id)
+                    .orElseThrow(RuntimeException::new);
     }
 
     public Genre create(Genre newGenre){
@@ -36,12 +29,12 @@ public class GenreService {
     }
 
     public Genre update(int id, Genre updateGenre){
-
-        if(repo.findById(id).isPresent()){
-            return repo.save(updateGenre);
-        }
-
-        return null;
+        return repo.findById(id)
+                    .map(genre -> new Genre.Builder(genre)
+                                            .name(updateGenre.getName())
+                                            .build())
+                    .map(genre -> repo.save(genre))
+                    .orElseThrow(RuntimeException::new);
     }
 
     public void deleteById(int id){
